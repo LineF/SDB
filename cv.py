@@ -1,11 +1,22 @@
 #!/usr/bin/python
 
 import sys, argparse, io
+import xml.dom.minidom
 
 def cvt(ifile, ofile):
-    file = open(ifile, "r", encoding="utf-8")
-    print (file.read())
-    file.close()
+    DOMTree = xml.dom.minidom.parse(ifile)
+    collection = DOMTree.documentElement
+
+    if collection.hasAttribute("CheckSum"):
+        print ("Root element : %s" % collection.getAttribute("CheckSum"))
+
+    elems = collection.getElementsByTagName("")
+    for elem in elems:
+        print ("Tag")
+        if elem.hasAttribute("title"):
+            print ("Title: %s" % elem.getAttribute("title"))
+        type = elem.getElementsByTagName('type')[0]
+        print ("Type: %s" % type.childNodes[0].data)
 
     
 def main(argv):
